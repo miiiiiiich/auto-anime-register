@@ -10,9 +10,9 @@ class Status(Enum):
     Status of anime
     """
     DONE = "done"
-    BACK_LOG = "back log"
+    BACK_LOG = "back_log"
     TODO = "todo"
-    IN_PROGRESS = "in progress"
+    IN_PROGRESS = "in_progress"
     CANCEL = "cancel"
 
 

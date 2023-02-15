@@ -19,4 +19,6 @@ colorama = "*"
 python_version = "3.10"
 
 [scripts]
-notion-update = "python apps/give_mal_info.py"
+give = "python apps/give_mal_info.py"
+update = "python apps/update_mal_info.py"
+

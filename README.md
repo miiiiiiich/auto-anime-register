@@ -5,6 +5,7 @@ notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でア�
 個人用に作成しているのでnotion側の列名なども固定になっている。
 
 ## application
+
 ### before
 
 <img width="400" alt="" src="https://user-images.githubusercontent.com/51878466/215313235-6ac5306f-e7a5-4b94-8b11-878460f9c94c.png">
@@ -35,16 +36,26 @@ MAL_CLIENT_ID = "xxx"
 
 ### run
 
+#### 1. my-anime-listのデータがないアイテムについての付与
+
 ```shell
-pipenv run update-notion
+pipenv run give
+# pipenv run update-notion in_progress todo
+```
+
+引数にstatusを指定することで、指定したstatusのアニメのみ更新する。
+
+#### 2. my-anime-listのデータがあるアイテムについての更新
+
+```shell
+pipenv run update
+# pipenv run update-notion in_progress todo
 ```
 
 https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-91e1-29a4a1117b1d.mov
 
-
-
-
 ## reference
+
 - [notionAPI](https://developers.notion.com/docs/getting-started)
-- [notion_client](https://blog.rmc-8.com/2021/06/using-notion-api-with-python.html) 
+- [notion_client](https://blog.rmc-8.com/2021/06/using-notion-api-with-python.html)
 - [how to use my anime list API](https://myanimelist.net/forum/?topicid=1973141)

@@ -9,23 +9,30 @@ from tqdm import tqdm
 sys.path.append(dirname(dirname(__file__)))
 from functions.models import NotionAnimeItem, Status
 from functions.notion_database import request_notion_db
-from functions.anime import search_anime_all, select_anime_list, request_anime_list
+from functions.anime import search_anime_all, select_anime_list
 
 
-def give_in_local(status: str) -> None:
-    status = Status(status)
+def give_in_local(*status_args) -> None:
+    """
+    Give anime in local.
+    target notion item is status is one of status_args and my anime list is empty.
+    Args:
+        *status_args:
+
+    Returns:
+
+    """
+    if len(status_args) == 0:
+        status_args = [Status.BACK_LOG, Status.TODO, Status.IN_PROGRESS, Status.DONE, Status.CANCEL]
+    else:
+        status_args = [Status(status) for status in status_args]
     notion = Client(auth=os.getenv("NOTION_API_TOKEN"))
     items = request_notion_db(notion, os.getenv("NOTION_DATABASE_ID"))
     notion_items = [NotionAnimeItem.new_from_notion(item) for item in items]
     notion_to_search: list[NotionAnimeItem] = []
-    notion_to_update: list[NotionAnimeItem] = []
     for notion_item in notion_items:
-        if notion_item.prop.status != status:
-            continue
-        if notion_item.prop.mal_id is None:
+        if notion_item.prop.status in status_args and notion_item.prop.mal_id is None:
             notion_to_search.append(notion_item)
-        else:
-            notion_to_update.append(notion_item)
 
     searched_titles = [item.prop.title for item in notion_to_search]
     print("searching all items")
@@ -36,13 +43,7 @@ def give_in_local(status: str) -> None:
         for notion_item, anime in zip(notion_to_search, selected_d)
     ]
 
-    print("requesting all items")
-    update_anime_list = request_anime_list([item.prop.mal_id for item in notion_to_update])
-    notion_to_update = [
-        to_update.update_from_mal(anime)
-        for to_update, anime in zip(notion_to_update, update_anime_list)
-    ]
-    for notion_item in tqdm(notion_to_search + notion_to_update, desc="Updating Notion"):
+    for notion_item in tqdm(notion_to_search, desc="Updating Notion"):
         try:
             notion.pages.update(**notion_item.to_notion())
         except Exception as e:
