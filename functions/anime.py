@@ -36,7 +36,7 @@ def anime_future_result(future: list[Future[mal.Anime]]) -> list[mal.Anime]:
             print("Complete the process halfway through")
             return anime_list
 
-    return [feature.result() for feature in future]
+    return anime_list
 
 
 def search_anime(title, limit_items=10) -> list[mal.Anime]:

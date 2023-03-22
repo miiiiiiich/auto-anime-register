@@ -32,6 +32,7 @@ class NotionProperty(BaseModel):
     url: Optional[str]
     studios: Optional[list[str]]
     source: Optional[str]
+    type: Optional[str]
 
     @classmethod
     def new_from_notion_properties(cls, properties_d: dict):
@@ -42,6 +43,8 @@ class NotionProperty(BaseModel):
         premiered = premiered_selected["name"] if premiered_selected else None
         source_selected = properties_d.get("source", {}).get("select", None)
         source = source_selected["name"] if source_selected else None
+        type_selected = properties_d.get("type", {}).get("select", None)
+        type_ = type_selected["name"] if type_selected else None
         # NOTE: text item
         title_japanese_content = properties_d.get("title_japanese", {}).get("rich_text", [])
         title_japanese = title_japanese_content[0]["plain_text"] if title_japanese_content else None
@@ -57,6 +60,7 @@ class NotionProperty(BaseModel):
             "url": properties_d.get("url", {}).get("url", None),
             "studios": [s["name"] for s in studios],
             "source": source,
+            "type": type_,
             "title_japanese": title_japanese
         })
 
@@ -88,6 +92,7 @@ class NotionProperty(BaseModel):
         self.source = anime.source
         self.premiered = anime.premiered
         self.title_japanese = anime.title_japanese
+        self.type = anime.type
 
     def to_notion(self) -> dict:
         properties_d = {
@@ -106,6 +111,8 @@ class NotionProperty(BaseModel):
             properties_d["premiered"] = {"select": {"name": self.premiered}}
         if self.source:
             properties_d["source"] = {"select": {"name": self.source}}
+        if self.type:
+            properties_d["type"] = {"select": {"name": self.type}}
         return properties_d
 
 

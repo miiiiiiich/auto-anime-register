@@ -45,14 +45,16 @@ pipenv run give
 
 引数にstatusを指定することで、指定したstatusのアニメのみ更新する。
 
+https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-91e1-29a4a1117b1d.mov
+
 #### 2. my-anime-listのデータがあるアイテムについての更新
 
 ```shell
 pipenv run update
 # pipenv run update-notion in_progress todo
 ```
-
-https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-91e1-29a4a1117b1d.mov
+my anime list のapi制限によりすべてできるとは限らない。
+api 制限になった場合はしばらくの間実行できなくなるので注意が必要
 
 ## reference
 

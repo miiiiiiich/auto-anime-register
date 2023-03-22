@@ -2,6 +2,7 @@ import os
 import sys
 from os.path import dirname
 
+import fire
 from notion_client import Client
 from tqdm import tqdm
 
@@ -32,7 +33,7 @@ def update_in_local(*status_args):
     for notion_item in notion_items:
         if notion_item.prop.status in status_args and notion_item.prop.mal_id is not None:
             notion_to_update.append(notion_item)
-    print("requesting all items")
+    print(f"requests {len(notion_to_update)} items")
     update_anime_list = request_anime_list([item.prop.mal_id for item in notion_to_update])
     notion_to_update = [
         to_update.update_from_mal(anime)
@@ -40,7 +41,11 @@ def update_in_local(*status_args):
     ]
     for notion_item in tqdm(notion_to_update, desc="Updating Notion"):
         try:
-            notion_item.update_notion(notion)
+            notion.pages.update(**notion_item.to_notion())
         except Exception as e:
             print(f"Error: {e} at {notion_item.prop.title}")
             continue
+
+
+if __name__ == '__main__':
+    fire.Fire(update_in_local)
