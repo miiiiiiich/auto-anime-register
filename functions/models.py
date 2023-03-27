@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 
@@ -33,6 +34,8 @@ class NotionProperty(BaseModel):
     studios: Optional[list[str]]
     source: Optional[str]
     type: Optional[str]
+    title_english: Optional[str]
+    edit_at: datetime
 
     @classmethod
     def new_from_notion_properties(cls, properties_d: dict):
@@ -48,6 +51,10 @@ class NotionProperty(BaseModel):
         # NOTE: text item
         title_japanese_content = properties_d.get("title_japanese", {}).get("rich_text", [])
         title_japanese = title_japanese_content[0]["plain_text"] if title_japanese_content else None
+
+        # NOTE: default value
+        edit_at = properties_d["editAt"]["last_edited_time"]
+        edit_at = datetime.strptime(edit_at, "%Y-%m-%dT%H:%M:%S.%fZ")
         return cls.parse_obj({
             "title": properties_d["title"]["title"][0]["plain_text"],
             "status": properties_d["status"]["status"]["name"],
@@ -61,7 +68,8 @@ class NotionProperty(BaseModel):
             "studios": [s["name"] for s in studios],
             "source": source,
             "type": type_,
-            "title_japanese": title_japanese
+            "title_japanese": title_japanese,
+            "edit_at": edit_at
         })
 
     @classmethod
@@ -92,6 +100,7 @@ class NotionProperty(BaseModel):
         self.source = anime.source
         self.premiered = anime.premiered
         self.title_japanese = anime.title_japanese
+        self.title_english = anime.title
         self.type = anime.type
 
     def to_notion(self) -> dict:
@@ -104,7 +113,8 @@ class NotionProperty(BaseModel):
             "my_anime_list_id": {"number": self.mal_id},
             "url": {"url": self.url},
             "studios": {"multi_select": [{"name": s} for s in self.studios]},
-            "title_japanese": {"rich_text": [{"text": {"content": self.title_japanese}}]}
+            "title_japanese": {"rich_text": [{"text": {"content": self.title_japanese}}]},
+            "title_english": {"rich_text": [{"text": {"content": self.title_english}}]},
         }
 
         if self.premiered:

@@ -29,6 +29,7 @@ def update_in_local(*status_args):
     notion = Client(auth=os.getenv("NOTION_API_TOKEN"))
     items = request_notion_db(notion, os.getenv("NOTION_DATABASE_ID"))
     notion_items = [NotionAnimeItem.new_from_notion(item) for item in items]
+    notion_items = sorted(notion_items, key=lambda x: x.prop.edit_at)
     notion_to_update: list[NotionAnimeItem] = []
     for notion_item in notion_items:
         if notion_item.prop.status in status_args and notion_item.prop.mal_id is not None:

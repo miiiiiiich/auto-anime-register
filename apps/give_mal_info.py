@@ -42,7 +42,6 @@ def give_in_local(*status_args) -> None:
         notion_item.update_from_mal(anime)
         for notion_item, anime in zip(notion_to_search, selected_d)
     ]
-
     for notion_item in tqdm(notion_to_search, desc="Updating Notion"):
         try:
             notion.pages.update(**notion_item.to_notion())
