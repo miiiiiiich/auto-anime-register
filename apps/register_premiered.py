@@ -20,13 +20,12 @@ def register(year: int, season: str) -> None:
     Returns:
 
     """
-    notion = Client(auth=os.getenv("NOTION_API_TOKEN"))
-    database_id = os.getenv("NOTION_DATABASE_ID")
-    mal_ids = request_seasonal_mal_id(os.getenv('MAL_CLIENT_ID'), year, season)
+    notion = Client(auth=os.getenv("NOTION_API_TOKEN", ""))
+    database_id = os.getenv("NOTION_DATABASE_ID", "")
+    mal_ids = request_seasonal_mal_id(os.getenv("MAL_CLIENT_ID", ""), year, season)
     # mal_list = request_anime_list(mal_ids)
     # create_page_by_mal(notion, database_id, mal_list)
 
 
 if __name__ == "__main__":
     fire.Fire(register)
-

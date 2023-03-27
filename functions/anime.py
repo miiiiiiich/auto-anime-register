@@ -50,14 +50,13 @@ def search_anime(title, limit_items=10) -> list[mal.Anime]:
 
     """
     search_results = mal.AnimeSearch(title).results
-    limit_items = limit_items if len(search_results) > limit_items else len(search_results)
+    limit_items = (
+        limit_items if len(search_results) > limit_items else len(search_results)
+    )
     search_results = search_results[:limit_items]
     with ThreadPoolExecutor(max_workers=10) as executor:
         features: list[Future[mal.Anime]] = [
-            executor.submit(
-                request_anime,
-                mal_id=searched.mal_id
-            )
+            executor.submit(request_anime, mal_id=searched.mal_id)
             for searched in search_results
         ]
 
@@ -84,7 +83,9 @@ def search_anime_all(titles: list[str]) -> list[list[mal.Anime]]:
     return anime_list_in_list
 
 
-def select_anime(title: str, anime_list: list[mal.Anime | None], show_num: int = 3) -> mal.Anime:
+def select_anime(
+    title: str, anime_list: list[mal.Anime], show_num: int = 3
+) -> mal.Anime:
     """
     Select a match for the searched title
     Show more search results by selecting "More..." if none match your choices
@@ -98,7 +99,9 @@ def select_anime(title: str, anime_list: list[mal.Anime | None], show_num: int =
     """
     anime_list = [anime for anime in anime_list if anime is not None]
     if len(anime_list) > show_num:
-        show_anime_list = [f"{ma.title_japanese}: {ma.title}" for ma in anime_list[:show_num]] + ["More..."]
+        show_anime_list = [
+            f"{ma.title_japanese}: {ma.title}" for ma in anime_list[:show_num]
+        ] + ["More..."]
         more = True
     else:
         show_anime_list = [f"{ma.title_japanese}: {ma.title}" for ma in anime_list]
@@ -107,7 +110,7 @@ def select_anime(title: str, anime_list: list[mal.Anime | None], show_num: int =
         show_anime_list,
         title=f"search words: {title}",
         cycle_cursor=True,
-        clear_screen=True
+        clear_screen=True,
     )
     choice_index = menu.show()
     if more and choice_index == show_num:
@@ -117,7 +120,9 @@ def select_anime(title: str, anime_list: list[mal.Anime | None], show_num: int =
     return anime_list[choice_index]
 
 
-def select_anime_list(titles: list[str], searched_list_anime_list: list[list[mal.Anime]]) -> list[mal.Anime]:
+def select_anime_list(
+    titles: list[str], searched_list_anime_list: list[list[mal.Anime]]
+) -> list[mal.Anime]:
     """
     If you send a request after making a selection,
     the process will be frozen,
@@ -153,11 +158,7 @@ def request_anime_list(id_list: list[int]) -> list[mal.Anime]:
 
     with ThreadPoolExecutor(max_workers=10) as executor:
         features: list[Future[mal.Anime]] = [
-            executor.submit(
-                request_anime,
-                mal_id=mal_id
-            )
-            for mal_id in id_list
+            executor.submit(request_anime, mal_id=mal_id) for mal_id in id_list
         ]
 
     return anime_future_result(features)
@@ -188,6 +189,6 @@ def request_seasonal_mal_id(client_id: str, year: int, season: str) -> list[int]
     return [data["node"]["id"] for data in data_list]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     a = search_anime("あそびあそばせ")
     print([i.title_japanese for i in a])

@@ -23,11 +23,17 @@ def give_in_local(*status_args) -> None:
 
     """
     if len(status_args) == 0:
-        status_args = [Status.BACK_LOG, Status.TODO, Status.IN_PROGRESS, Status.DONE, Status.CANCEL]
+        status_args = [
+            Status.BACK_LOG,
+            Status.TODO,
+            Status.IN_PROGRESS,
+            Status.DONE,
+            Status.CANCEL,
+        ]
     else:
         status_args = [Status(status) for status in status_args]
-    notion = Client(auth=os.getenv("NOTION_API_TOKEN"))
-    items = request_notion_db(notion, os.getenv("NOTION_DATABASE_ID"))
+    notion = Client(auth=os.getenv("NOTION_API_TOKEN", ""))
+    items = request_notion_db(notion, os.getenv("NOTION_DATABASE_ID", ""))
     notion_items = [NotionAnimeItem.new_from_notion(item) for item in items]
     notion_to_search: list[NotionAnimeItem] = []
     for notion_item in notion_items:
@@ -51,5 +57,5 @@ def give_in_local(*status_args) -> None:
             continue
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     fire.Fire(give_in_local)
