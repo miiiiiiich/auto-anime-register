@@ -116,7 +116,9 @@ class NotionProperty(BaseModel):
         self.title_english = anime.title
         self.type = anime.type
 
-    def to_notion(self) -> dict[str, dict[str, list[dict[str, str]] | dict[str, str]]]:
+    def to_notion(
+        self,
+    ) -> dict[str, dict[str, list[dict[str, str | None]] | dict[str, str | None]]]:
         properties_d = {
             "title": {"title": [{"text": {"content": self.title}}]},
             "score": {"number": self.score},

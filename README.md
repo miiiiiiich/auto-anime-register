@@ -61,3 +61,10 @@ api 制限になった場合はしばらくの間実行できなくなるので�
 - [notionAPI](https://developers.notion.com/docs/getting-started)
 - [notion_client](https://blog.rmc-8.com/2021/06/using-notion-api-with-python.html)
 - [how to use my anime list API](https://myanimelist.net/forum/?topicid=1973141)
+
+## development
+
+### stub
+```shell
+pyright --createstub <library-name>
+```
