@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from mal import Anime
+import mal
 from pydantic import BaseModel
 
 
@@ -84,7 +84,7 @@ class NotionProperty(BaseModel):
         )
 
     @classmethod
-    def new_from_anime(cls, anime: Anime, status: Status):
+    def new_from_anime(cls, anime: mal.Anime, status: Status):
         return cls.parse_obj(
             {
                 "title": anime.title_japanese,
@@ -102,7 +102,7 @@ class NotionProperty(BaseModel):
             }
         )
 
-    def update_from_mal(self, anime: Anime):
+    def update_from_mal(self, anime: mal.Anime):
         self.genres = anime.genres
         self.score = anime.score
         self.scored_by = anime.scored_by
@@ -117,7 +117,7 @@ class NotionProperty(BaseModel):
         self.type = anime.type
 
     def to_notion(
-        self,
+            self,
     ) -> dict[str, dict[str, list[dict[str, str | None]] | dict[str, str | None]]]:
         properties_d = {
             "title": {"title": [{"text": {"content": self.title}}]},
@@ -160,7 +160,7 @@ class NotionAnimeItem(BaseModel):
 
         return cls.parse_obj({"id": result_d["id"], "prop": prop})
 
-    def update_from_mal(self, anime: Anime) -> "NotionAnimeItem":
+    def update_from_mal(self, anime: mal.Anime) -> "NotionAnimeItem":
         self.prop.update_from_mal(anime)
         return self
 
