@@ -116,7 +116,7 @@ class NotionProperty(BaseModel):
         self.title_english = anime.title
         self.type = anime.type
 
-    def to_notion(self) -> dict:
+    def to_notion(self) -> dict[str, dict[str, list[dict[str, str]] | dict[str, str]]]:
         properties_d = {
             "title": {"title": [{"text": {"content": self.title}}]},
             "score": {"number": self.score},
@@ -163,7 +163,7 @@ class NotionAnimeItem(BaseModel):
         return self
 
     def to_notion(self) -> dict:
-        # TODO: テキストのアップデートとnotionデータベースに列がない場合の処理：関数化して列のexistsをチェックする。設定ファイルでも可能
+        # TODO: テキストのアップデートとnotionデータベースに列がない場合の処理：関数化して列のexistsをチェックする。設定ファイルでも可能にしたい
         # TODO: リクエスト系やserde系はテストしたい
 
         return {

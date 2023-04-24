@@ -1,5 +1,5 @@
 import time
-from concurrent.futures import ThreadPoolExecutor, Future
+from concurrent.futures import Future, ThreadPoolExecutor
 from pprint import pprint
 
 import mal
@@ -10,7 +10,7 @@ from simple_term_menu import TerminalMenu
 def request_anime(mal_id: int) -> mal.Anime:
     try:
         return mal.Anime(mal_id)
-    except requests.exceptions.ConnectionError as e:
+    except requests.exceptions.ConnectionError:
         # NOTE: max retries exceeded with url
         print("Max retries exceeded with url")
         print("wait 3 minutes...")
@@ -126,7 +126,8 @@ def select_anime_list(
     """
     If you send a request after making a selection,
     the process will be frozen,
-    so you can eliminate the stress of making a selection by making all requests in advance.
+    so you can eliminate the stress of making a selection
+    by making all requests in advance.
 
     Args:
         titles:
@@ -187,8 +188,3 @@ def request_seasonal_mal_id(client_id: str, year: int, season: str) -> list[int]
         if url is None:
             break
     return [data["node"]["id"] for data in data_list]
-
-
-if __name__ == "__main__":
-    a = search_anime("あそびあそばせ")
-    print([i.title_japanese for i in a])

@@ -16,6 +16,8 @@ colorama = "*"
 [dev-packages]
 black = "*"
 pyright = "*"
+flake8-pyproject = "*"
+isort = "*"
 
 [requires]
 python_version = "3.10"
@@ -23,3 +25,5 @@ python_version = "3.10"
 [scripts]
 give = "python apps/give_mal_info.py"
 update = "python apps/update_mal_info.py"
+fmt = "bash -c 'black . && isort .'"
+lint = "bash -c 'flake8 . && pyright'"
