@@ -9,9 +9,12 @@ from types import TracebackType
 from typing import Any, Dict, Optional, Type, Union
 
 import httpx
+from notion_client.api_endpoints import DatabasesEndpoint, PagesEndpoint
 from notion_client.typing import SyncAsync
 
 """Synchronous and asynchronous clients for Notion's API."""
+
+
 @dataclass
 class ClientOptions:
     """Options to configure the client.
@@ -37,64 +40,69 @@ class ClientOptions:
 
 
 class BaseClient:
-    def __init__(self, client: Union[httpx.Client, httpx.AsyncClient], options: Optional[Union[Dict[str, Any], ClientOptions]] = ..., **kwargs: Any) -> None:
-        ...
-    
+    def __init__(self, client: Union[httpx.Client, httpx.AsyncClient],
+                 options: Optional[Union[Dict[str, Any], ClientOptions]] = ..., **kwargs: Any) -> None:
+        self.databases = DatabasesEndpoint(self)
+        self.pages = PagesEndpoint(self)
+
     @property
     def client(self) -> Union[httpx.Client, httpx.AsyncClient]:
         ...
-    
+
     @client.setter
     def client(self, client: Union[httpx.Client, httpx.AsyncClient]) -> None:
         ...
-    
+
     @abstractclassmethod
-    def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ..., body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> SyncAsync[Any]:
+    def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ...,
+                body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> SyncAsync[Any]:
         ...
-    
 
 
 class Client(BaseClient):
     """Synchronous client for Notion's API."""
     client: httpx.Client
-    def __init__(self, options: Optional[Union[Dict[Any, Any], ClientOptions]] = ..., client: Optional[httpx.Client] = ..., **kwargs: Any) -> None:
+
+    def __init__(self, options: Optional[Union[Dict[Any, Any], ClientOptions]] = ...,
+                 client: Optional[httpx.Client] = ..., **kwargs: Any) -> None:
         ...
-    
+
     def __enter__(self) -> Client:
         ...
-    
+
     def __exit__(self, exc_type: Type[BaseException], exc_value: BaseException, traceback: TracebackType) -> None:
         ...
-    
+
     def close(self) -> None:
         """Close the connection pool of the current inner client."""
         ...
-    
-    def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ..., body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> Any:
+
+    def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ...,
+                body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> Any:
         """Send an HTTP request."""
         ...
-    
 
 
 class AsyncClient(BaseClient):
     """Asynchronous client for Notion's API."""
     client: httpx.AsyncClient
-    def __init__(self, options: Optional[Union[Dict[str, Any], ClientOptions]] = ..., client: Optional[httpx.AsyncClient] = ..., **kwargs: Any) -> None:
+
+    def __init__(self, options: Optional[Union[Dict[str, Any], ClientOptions]] = ...,
+                 client: Optional[httpx.AsyncClient] = ..., **kwargs: Any) -> None:
         ...
-    
+
     async def __aenter__(self) -> AsyncClient:
         ...
-    
-    async def __aexit__(self, exc_type: Type[BaseException], exc_value: BaseException, traceback: TracebackType) -> None:
+
+    async def __aexit__(self, exc_type: Type[BaseException], exc_value: BaseException,
+                        traceback: TracebackType) -> None:
         ...
-    
+
     async def aclose(self) -> None:
         """Close the connection pool of the current inner client."""
         ...
-    
-    async def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ..., body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> Any:
+
+    async def request(self, path: str, method: str, query: Optional[Dict[Any, Any]] = ...,
+                      body: Optional[Dict[Any, Any]] = ..., auth: Optional[str] = ...) -> Any:
         """Send an HTTP request asynchronously."""
         ...
-    
-
-
