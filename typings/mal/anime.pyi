@@ -1,7 +1,6 @@
 from typing import Optional
 
-from mal import _base, AnimeCharacterResult, AnimeStaffResult
-
+from mal import AnimeCharacterResult, AnimeStaffResult, _base
 
 class Anime:
     def __init__(self, id: int) -> "Anime":

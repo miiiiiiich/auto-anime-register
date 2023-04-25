@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 import mal
 from pydantic import BaseModel
@@ -39,7 +39,7 @@ class NotionProperty(BaseModel):
     edit_at: datetime
 
     @classmethod
-    def new_from_notion_properties(cls, properties_d: dict):
+    def new_from_notion_properties(cls, properties_d: dict) -> "NotionProperty":
         genres: list[dict[str, str]] = properties_d.get("genres", {}).get(
             "multi_select", []
         )
@@ -84,7 +84,7 @@ class NotionProperty(BaseModel):
         )
 
     @classmethod
-    def new_from_anime(cls, anime: mal.Anime, status: Status):
+    def new_from_anime(cls, anime: mal.Anime, status: Status) -> "NotionProperty":
         return cls.parse_obj(
             {
                 "title": anime.title_japanese,
@@ -102,7 +102,7 @@ class NotionProperty(BaseModel):
             }
         )
 
-    def update_from_mal(self, anime: mal.Anime):
+    def update_from_mal(self, anime: mal.Anime) -> None:
         self.genres = anime.genres
         self.score = anime.score
         self.scored_by = anime.scored_by
@@ -117,8 +117,8 @@ class NotionProperty(BaseModel):
         self.type = anime.type
 
     def to_notion(
-            self,
-    ) -> dict[str, dict[str, list[dict[str, str | None]] | dict[str, str | None]]]:
+        self,
+    ) -> dict:
         properties_d = {
             "title": {"title": [{"text": {"content": self.title}}]},
             "score": {"number": self.score},
@@ -154,8 +154,8 @@ class NotionAnimeItem(BaseModel):
     prop: NotionProperty
 
     @classmethod
-    def new_from_notion(cls, result_d: dict) -> "NotionAnimeItem":
-        properties_d = result_d["properties"]
+    def new_from_notion(cls, result_d: dict[str, Any]) -> "NotionAnimeItem":
+        properties_d = result_d.get("properties", {})
         prop = NotionProperty.new_from_notion_properties(properties_d)
 
         return cls.parse_obj({"id": result_d["id"], "prop": prop})
@@ -164,7 +164,7 @@ class NotionAnimeItem(BaseModel):
         self.prop.update_from_mal(anime)
         return self
 
-    def to_notion(self) -> dict:
+    def to_notion(self) -> dict[str, Any]:
         # TODO: テキストのアップデートとnotionデータベースに列がない場合の処理：関数化して列のexistsをチェックする。設定ファイルでも可能にしたい
         # TODO: リクエスト系やserde系はテストしたい
 

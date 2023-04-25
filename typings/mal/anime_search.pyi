@@ -1,5 +1,4 @@
-from mal import config, _base, AnimeSearchResult
-
+from mal import AnimeSearchResult, _base, config
 
 class AnimeSearch:
     def __init__(self, query: str, timeout: int = config.TIMEOUT):

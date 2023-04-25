@@ -27,5 +27,3 @@ exclude = [
 stubPath = [
     "typings",
 ]
-# NOTE: malが生成するコードには型ヒントがないので、ignoreしておく
-#reportGeneralTypeIssues = false

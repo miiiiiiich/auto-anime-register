@@ -1,0 +1,33 @@
+name: Python Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          pip install pipenv
+          pipenv install -d
+      - name: flake8
+        run: |
+          pipenv run flake8 .
+      - name: pyright
+        run: |
+          pipenv run pyright .
+      - name: black
+        run: |
+          pipenv run black --check .
