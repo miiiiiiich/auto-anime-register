@@ -62,7 +62,7 @@ class NotionProperty(BaseModel):
         )
 
         # NOTE: default value
-        edit_at = properties_d["editAt"]["last_edited_time"]
+        edit_at = properties_d["edit_at"]["last_edited_time"]
         edit_at = datetime.strptime(edit_at, "%Y-%m-%dT%H:%M:%S.%fZ")
         return cls.parse_obj(
             {
