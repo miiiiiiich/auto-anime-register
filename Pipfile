@@ -12,6 +12,7 @@ simple-term-menu = "*"
 fire = "*"
 tqdm = "*"
 colorama = "*"
+pyright = "*"
 
 [dev-packages]
 black = "*"

@@ -1,6 +1,7 @@
 import time
 from concurrent.futures import Future, ThreadPoolExecutor
 from pprint import pprint
+from typing import cast
 
 import mal
 import requests
@@ -97,14 +98,14 @@ def select_anime(
     Returns:
 
     """
-    anime_list = [anime for anime in anime_list if anime is not None]
-    if len(anime_list) > show_num:
+    animations: list[mal.Anime] = [anime for anime in anime_list if anime is not None]
+    if len(animations) > show_num:
         show_anime_list = [
-            f"{ma.title_japanese}: {ma.title}" for ma in anime_list[:show_num]
+            f"{ma.title_japanese}: {ma.title}" for ma in animations[:show_num]
         ] + ["More..."]
         more = True
     else:
-        show_anime_list = [f"{ma.title_japanese}: {ma.title}" for ma in anime_list]
+        show_anime_list = [f"{ma.title_japanese}: {ma.title}" for ma in animations]
         more = False
     menu = TerminalMenu(
         show_anime_list,
@@ -112,12 +113,12 @@ def select_anime(
         cycle_cursor=True,
         clear_screen=True,
     )
-    choice_index = menu.show()
+    choice_index = cast(int, menu.show())
     if more and choice_index == show_num:
-        return select_anime(title, anime_list, show_num * 2)
+        return select_anime(title, animations, show_num * 2)
     # NOTE: For some reason, a None Type error appeared, so it was processed
     choice_index = choice_index if choice_index is not None else 0
-    return anime_list[choice_index]
+    return animations[choice_index]
 
 
 def select_anime_list(
