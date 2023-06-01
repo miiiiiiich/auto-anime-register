@@ -1,3 +1,10 @@
+![](https://github.com/miiiiiiich/auto-anime-register/actions/workflows/python-lint.yml/badge.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![github_action](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+![intellij](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ## auto-anime-register
 
 notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でアニメの詳細情報およびレビューを追加する。
@@ -61,6 +68,8 @@ api 制限になった場合はしばらくの間実行できなくなるので�
 - [notionAPI](https://developers.notion.com/docs/getting-started)
 - [notion_client](https://blog.rmc-8.com/2021/06/using-notion-api-with-python.html)
 - [how to use my anime list API](https://myanimelist.net/forum/?topicid=1973141)
+- [Awesome Badges](https://dev.to/envoy_/150-badges-for-github-pnk)
+- [black](https://github.com/psf/black)
 
 ## development
 
