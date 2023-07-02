@@ -7,9 +7,9 @@ from notion_client import Client
 from tqdm import tqdm
 
 sys.path.append(dirname(dirname(__file__)))
-from functions.anime import search_anime_all, select_anime_list
-from functions.models import NotionAnimeItem, Status
-from functions.notion_database import request_notion_db
+from modules.anime import search_anime_all, select_anime_list
+from modules.models import NotionAnimeItem, Status
+from modules.notion_database import request_notion_db
 
 
 def give_in_local(*status_args) -> None:

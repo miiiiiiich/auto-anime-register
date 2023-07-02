@@ -6,7 +6,7 @@
 # from notion_client import Client
 #
 # sys.path.append(dirname(dirname(__file__)))
-# from functions.anime import request_seasonal_mal_id
+# from modules.anime import request_seasonal_mal_id
 #
 #
 # def register(year: int, season: str) -> None:
