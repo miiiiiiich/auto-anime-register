@@ -282,10 +282,10 @@ CALLABLE_WITH_KEYWORD_ARGUMENT = ...
 class ClassWithDocstring:
   """Test class for testing help text output.
 
-  This is some detail description of this test class.
+  This is some detail description of this tests class.
   """
   def __init__(self, message=...) -> None:
-    """Constructor of the test class.
+    """Constructor of the tests class.
 
     Constructs a new ClassWithDocstring object.
 
@@ -303,7 +303,7 @@ class ClassWithDocstring:
 class ClassWithMultilineDocstring:
   """Test class for testing help text output with multiline docstring.
 
-  This is a test class that has a long docstring description that spans across
+  This is a tests class that has a long docstring description that spans across
   multiple lines for testing line breaking in help text.
   """
   @staticmethod

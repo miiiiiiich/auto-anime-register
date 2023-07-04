@@ -237,7 +237,7 @@ class ConsoleAttr:
   def ConvertOutputToUnicode(self, buf): # -> text_type:
     """Converts a console output string buf to unicode.
 
-    Mainly used for testing. Allows test comparisons in unicode while ensuring
+    Mainly used for testing. Allows tests comparisons in unicode while ensuring
     that unicode => encoding => unicode works.
 
     Args:
