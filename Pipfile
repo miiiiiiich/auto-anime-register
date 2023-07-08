@@ -12,7 +12,6 @@ simple-term-menu = "*"
 fire = "*"
 tqdm = "*"
 colorama = "*"
-pyright = "*"
 
 [dev-packages]
 black = "*"
@@ -29,4 +28,4 @@ python_version = "3.10"
 give = "python main.py give"
 update = "python main.py update"
 fmt = "bash -c 'black . && isort .'"
-lint = "bash -c 'black --check . && flake8 . && pyright'"
+lint = "bash -c 'black --check . && isort --diff --check-only . && flake8 . && pyright'"
