@@ -60,6 +60,13 @@ class NotionProperty(BaseModel):
         title_japanese = (
             title_japanese_content[0]["plain_text"] if title_japanese_content else None
         )
+        title_english_content = properties_d.get("title_english", {}).get(
+            "rich_text", []
+        )
+
+        title_english = (
+            title_english_content[0]["plain_text"] if title_english_content else None
+        )
 
         # NOTE: default value
         edit_at = properties_d["edit_at"]["last_edited_time"]
@@ -79,6 +86,7 @@ class NotionProperty(BaseModel):
                 "source": source,
                 "type": type_,
                 "title_japanese": title_japanese,
+                "title_english": title_english,
                 "edit_at": edit_at,
             }
         )
