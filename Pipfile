@@ -17,15 +17,15 @@ pyright = "*"
 [dev-packages]
 black = "*"
 pyright = "*"
-flake8-pyproject = "*"
 isort = "*"
 pytest = "*"
+flake8-pyproject = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
 
 [scripts]
 give = "python apps/give_mal_info.py"
 update = "python apps/update_mal_info.py"
 fmt = "bash -c 'black . && isort .'"
-lint = "bash -c 'flake8 . && pyright'"
+lint = "bash -c 'black --check . && flake8 . && pyright'"

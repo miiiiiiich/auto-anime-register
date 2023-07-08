@@ -1,37 +1,24 @@
 import os
-import sys
-from os.path import dirname
 
 import fire
 from notion_client import Client
 from tqdm import tqdm
 
-sys.path.append(dirname(dirname(__file__)))
 from modules.anime import request_anime_list
 from modules.models import NotionAnimeItem, Status
 from modules.notion_database import request_notion_db
 
 
-def update_in_local(*status_args):
+def update_in_local(status_list: list[Status]):
     """
     Update anime in local.
     target notion item is status is one of status_args and my anime list is not empty.
     Args:
-        *status_args:
+        status_list:
 
     Returns:
 
     """
-    if len(status_args) == 0:
-        status_args = [
-            Status.BACK_LOG,
-            Status.TODO,
-            Status.IN_PROGRESS,
-            Status.DONE,
-            Status.CANCEL,
-        ]
-    else:
-        status_args = [Status(status) for status in status_args]
     notion = Client(auth=os.getenv("NOTION_API_TOKEN", ""))
     items = request_notion_db(notion, os.getenv("NOTION_DATABASE_ID", ""))
     notion_items = [NotionAnimeItem.new_from_notion(item) for item in items]
@@ -39,7 +26,7 @@ def update_in_local(*status_args):
     notion_to_update: list[NotionAnimeItem] = []
     for notion_item in notion_items:
         if (
-            notion_item.prop.status in status_args
+            notion_item.prop.status in status_list
             and notion_item.prop.mal_id is not None
         ):
             notion_to_update.append(notion_item)
