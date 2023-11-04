@@ -19,6 +19,7 @@ pyright = "*"
 isort = "*"
 pytest = "*"
 flake8-pyproject = "*"
+pytest-mock = "*"
 
 [requires]
 # myanimelist api requires python 3.10
