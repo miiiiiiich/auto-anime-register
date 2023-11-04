@@ -43,6 +43,3 @@ def give_in_local(status_list: list[Status]) -> None:
             print(notion_item.to_notion())
             continue
 
-
-if __name__ == "__main__":
-    fire.Fire(give_in_local)

@@ -45,6 +45,3 @@ def update_in_local(status_list: list[Status]):
             print(f"Error: {e} at {notion_item.prop.title}")
             continue
 
-
-if __name__ == "__main__":
-    fire.Fire(update_in_local)
