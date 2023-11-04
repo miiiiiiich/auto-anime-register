@@ -7,24 +7,26 @@ name = "pypi"
 mal-api = "*"
 requests = "*"
 notion-client = "*"
-pydantic = "==1.*"
+pydantic = "*"
 simple-term-menu = "*"
 fire = "*"
 tqdm = "*"
 colorama = "*"
-pyright = "*"
 
 [dev-packages]
 black = "*"
 pyright = "*"
-flake8-pyproject = "*"
 isort = "*"
+pytest = "*"
+flake8-pyproject = "*"
+pytest-mock = "*"
 
 [requires]
+# myanimelist api requires python 3.10
 python_version = "3.10"
 
 [scripts]
-give = "python apps/give_mal_info.py"
-update = "python apps/update_mal_info.py"
+give = "python main.py give"
+update = "python main.py update"
 fmt = "bash -c 'black . && isort .'"
-lint = "bash -c 'flake8 . && pyright'"
+lint = "bash -c 'black --check . && isort --diff --check-only . && flake8 . && pyright'"

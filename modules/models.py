@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 import mal
 from pydantic import BaseModel
@@ -21,21 +21,21 @@ class Status(Enum):
 class NotionProperty(BaseModel):
     title: str
     status: Status
-    title_japanese: Optional[str]
-    # comment: Optional[str]
-    genres: Optional[list[str]]
-    # start_date: Optional[str]
-    # end_date: Optional[str]
-    score: Optional[float]
-    scored_by: Optional[int]
-    rank: Optional[int]
-    premiered: Optional[str]
-    mal_id: Optional[int]
-    url: Optional[str]
-    studios: Optional[list[str]]
-    source: Optional[str]
-    type: Optional[str]
-    title_english: Optional[str]
+    title_japanese: str | None
+    # comment: str | None
+    genres: list[str] | None
+    # start_date: str | None
+    # end_date: str | None
+    score: float | None
+    scored_by: int | None
+    rank: int | None
+    premiered: str | None
+    mal_id: int | None
+    url: str | None
+    studios: list[str] | None
+    source: str | None
+    type: str | None
+    title_english: str | None
     edit_at: datetime
 
     @classmethod
@@ -60,11 +60,18 @@ class NotionProperty(BaseModel):
         title_japanese = (
             title_japanese_content[0]["plain_text"] if title_japanese_content else None
         )
+        title_english_content = properties_d.get("title_english", {}).get(
+            "rich_text", []
+        )
+
+        title_english = (
+            title_english_content[0]["plain_text"] if title_english_content else None
+        )
 
         # NOTE: default value
         edit_at = properties_d["edit_at"]["last_edited_time"]
         edit_at = datetime.strptime(edit_at, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return cls.parse_obj(
+        return cls.model_validate(
             {
                 "title": properties_d["title"]["title"][0]["plain_text"],
                 "status": properties_d["status"]["status"]["name"],
@@ -79,13 +86,14 @@ class NotionProperty(BaseModel):
                 "source": source,
                 "type": type_,
                 "title_japanese": title_japanese,
+                "title_english": title_english,
                 "edit_at": edit_at,
             }
         )
 
     @classmethod
     def new_from_anime(cls, anime: mal.Anime, status: Status) -> "NotionProperty":
-        return cls.parse_obj(
+        return cls.model_validate(
             {
                 "title": anime.title_japanese,
                 "status": status.value,
@@ -158,7 +166,7 @@ class NotionAnimeItem(BaseModel):
         properties_d = result_d.get("properties", {})
         prop = NotionProperty.new_from_notion_properties(properties_d)
 
-        return cls.parse_obj({"id": result_d["id"], "prop": prop})
+        return cls.model_validate({"id": result_d["id"], "prop": prop})
 
     def update_from_mal(self, anime: mal.Anime) -> "NotionAnimeItem":
         self.prop.update_from_mal(anime)

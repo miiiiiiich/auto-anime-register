@@ -29,3 +29,6 @@ jobs:
       - name: black
         run: |
           pipenv run black --check .
+      - name: isort
+        run: |
+          pipenv run isort --diff --check-only .

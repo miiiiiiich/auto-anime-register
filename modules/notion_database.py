@@ -3,7 +3,7 @@ from typing import Any, cast
 import mal
 import notion_client
 
-from functions.models import NotionProperty, Status
+from modules.models import NotionProperty, Status
 
 
 def request_notion_db(
