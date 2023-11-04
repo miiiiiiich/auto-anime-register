@@ -1,6 +1,5 @@
 import os
 
-import fire
 from notion_client import Client
 from tqdm import tqdm
 
@@ -42,4 +41,3 @@ def give_in_local(status_list: list[Status]) -> None:
             print(e)
             print(notion_item.to_notion())
             continue
-

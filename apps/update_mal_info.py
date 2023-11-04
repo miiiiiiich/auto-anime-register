@@ -1,6 +1,5 @@
 import os
 
-import fire
 from notion_client import Client
 from tqdm import tqdm
 
@@ -44,4 +43,3 @@ def update_in_local(status_list: list[Status]):
         except Exception as e:
             print(f"Error: {e} at {notion_item.prop.title}")
             continue
-
