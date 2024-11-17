@@ -13,7 +13,9 @@ tqdm = "^4.67.0"
 requests = "^2.32.3"
 notion-client = "^2.2.1"
 mal-api = "^0.5.3"
-prompt-toolkit = "^3.0.48"
+pydantic-settings = "^2.6.1"
+questionary = "^2.0.1"
+loguru = "^0.7.2"
 
 
 [tool.poetry.group.dev.dependencies]
