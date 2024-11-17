@@ -33,14 +33,13 @@ def anime_future_result(future: list[Future[mal.Anime]]) -> list[mal.Anime]:
         try:
             anime_list.append(feature.result())
         except Exception as e:
-            print(e)
             print("Complete the process halfway through")
             return anime_list
 
     return anime_list
 
 
-def search_anime(title, limit_items=10) -> list[mal.Anime]:
+def search_anime(title, limit_items=5) -> list[mal.Anime]:
     """
     Search for anime on my-anime-list
     mal.Anime() is slow, so this does parallel processing
@@ -55,7 +54,7 @@ def search_anime(title, limit_items=10) -> list[mal.Anime]:
         limit_items if len(search_results) > limit_items else len(search_results)
     )
     search_results = search_results[:limit_items]
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
         features: list[Future[mal.Anime]] = [
             executor.submit(request_anime, mal_id=searched.mal_id)
             for searched in search_results
@@ -77,8 +76,11 @@ def search_anime_all(titles: list[str]) -> list[list[mal.Anime]]:
     for title in titles:
         try:
             anime_list_in_list.append(search_anime(title))
+        except ValueError as e:
+            print(e, title)
+            continue
         except Exception as e:
-            print(e)
+            print(e, title, type(e))
             print("Complete the process halfway through")
             return anime_list_in_list
     return anime_list_in_list
@@ -158,12 +160,22 @@ def request_anime_list(id_list: list[int]) -> list[mal.Anime]:
 
     """
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        features: list[Future[mal.Anime]] = [
-            executor.submit(request_anime, mal_id=mal_id) for mal_id in id_list
-        ]
-
-    return anime_future_result(features)
+    # with ThreadPoolExecutor(max_workers=10) as executor:
+    #     features: list[Future[mal.Anime]] = [
+    #         executor.submit(request_anime, mal_id=mal_id) for mal_id in id_list
+    #     ]
+    # return anime_future_result(features)
+    anime_list = []
+    i = -1
+    try:
+        for i in id_list:
+            anime = request_anime(i)
+            anime_list.append(anime)
+    except Exception as e:
+        print(f"Error: {e}. mal_id: {i}")
+        print("Complete the process halfway through")
+        return anime_list
+    return anime_list
 
 
 def request_seasonal_mal_id(client_id: str, year: int, season: str) -> list[int]:

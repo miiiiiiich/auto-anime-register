@@ -13,6 +13,7 @@ def input_line(*status_args) -> list[Status]:
             Status.IN_PROGRESS,
             Status.DONE,
             Status.CANCEL,
+            Status.PAID,
         ]
 
     return [Status(status) for status in status_args]

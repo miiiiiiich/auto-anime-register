@@ -16,6 +16,7 @@ class Status(Enum):
     TODO = "todo"
     IN_PROGRESS = "in_progress"
     CANCEL = "cancel"
+    PAID = "paid"
 
 
 class NotionProperty(BaseModel):
