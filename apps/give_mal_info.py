@@ -26,6 +26,7 @@ def give_in_local(status_list: list[Status]) -> None:
         if notion_item.prop.status in status_list and notion_item.prop.mal_id is None:
             notion_to_search.append(notion_item)
 
+    print("target items: ", len(notion_to_search))
     searched_titles = [item.prop.title for item in notion_to_search]
     print("searching all items")
     searched_d = search_anime_all(searched_titles)

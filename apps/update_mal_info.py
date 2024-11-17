@@ -37,6 +37,7 @@ def update_in_local(status_list: list[Status]):
         to_update.update_from_mal(anime)
         for to_update, anime in zip(notion_to_update, update_anime_list)
     ]
+
     for notion_item in tqdm(notion_to_update, desc="Updating Notion"):
         try:
             notion.pages.update(**notion_item.to_notion())
