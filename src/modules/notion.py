@@ -1,12 +1,14 @@
-from typing import Literal, Any
+from typing import Any, Literal
 
 import mal
 from pydantic import BaseModel
 
+Status = Literal["done", "back_log", "todo", "in_progress", "cancel", "paid"]
+
 
 class Property(BaseModel):
     title: str
-    status: Literal["done", "back_log", "todo", "in_progress", "cancel", "paid"]
+    status: Status
     title_japanese: str | None
     genres: list[str] | None
     score: float | None
@@ -54,22 +56,20 @@ class Property(BaseModel):
         self.type = anime.type
         self.title_english = anime.title_english
 
-
-
     def format_notion_json(self):
         return (
-                 text_to_json("title_japanese", self.title_japanese)
-                | multi_select_to_json("genres", self.genres)
-                | number_to_json("score", self.score)
-                | number_to_json("scored_by", self.scored_by)
-                | number_to_json("rank", self.rank)
-                | select_to_json("premiered", self.premiered)
-                | number_to_json("my_anime_list_id", self.my_anime_list_id)
-                | url_to_json("url", self.url)
-                | multi_select_to_json("studios", self.studios)
-                | select_to_json("source", self.source)
-                | select_to_json("type", self.type)
-                | text_to_json("title_english", self.title_english)
+            text_to_json("title_japanese", self.title_japanese)
+            | multi_select_to_json("genres", self.genres)
+            | number_to_json("score", self.score)
+            | number_to_json("scored_by", self.scored_by)
+            | number_to_json("rank", self.rank)
+            | select_to_json("premiered", self.premiered)
+            | number_to_json("my_anime_list_id", self.my_anime_list_id)
+            | url_to_json("url", self.url)
+            | multi_select_to_json("studios", self.studios)
+            | select_to_json("source", self.source)
+            | select_to_json("type", self.type)
+            | text_to_json("title_english", self.title_english)
         )
 
 
@@ -84,13 +84,14 @@ class Page(BaseModel):
             properties=Property.new(page["properties"]),
         )
 
+
 def get_select_item(properties: dict[str, dict[str, Any]], key: str) -> str | None:
     items = properties.get(key, {}).get("select", {})
     return items["name"] if items else None
 
 
 def get_multi_select_item(
-        properties: dict[str, dict[str, Any]], key: str
+    properties: dict[str, dict[str, Any]], key: str
 ) -> list[str] | None:
     items = properties.get(key, {}).get("multi_select", [])
     return [item["name"] for item in items] if items else None
@@ -106,12 +107,13 @@ def get_number_item(properties: dict[str, dict[str, Any]], key: str) -> int | No
     return items if items else None
 
 
-def get_status_item(properties: dict[str, dict[str, Any]], key: str) -> str:
+def get_status_item(properties: dict[str, dict[str, Any]], key: str) -> Status:
     return properties[key]["status"]["name"]
 
 
 def get_title_item(properties: dict[str, dict[str, Any]]) -> str:
     return properties["title"]["title"][0]["plain_text"]
+
 
 def get_url_item(properties: dict[str, dict[str, Any]], key: str) -> str:
     return properties[key]["url"]
@@ -138,11 +140,14 @@ def select_to_json(key: str, name: str | None):
 
 
 def multi_select_to_json(
-        key: str, names: list[str] | None
-) -> dict[str, list[dict[str, str]]]:
+    key: str, names: list[str] | None
+) -> dict[str, dict[str, list[dict[str, str]]]]:
     if names is None:
         return {}
     return {key: {"multi_select": [{"name": name} for name in names]}}
 
-def url_to_json(key: str, url: str):
+
+def url_to_json(key: str, url: str | None):
+    if url is None:
+        return {}
     return {key: {"url": url}}

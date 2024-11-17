@@ -17,7 +17,7 @@ class Env(BaseSettings):
     @classmethod
     @lru_cache
     def get(cls) -> "Env":
-        return cls()
+        return cls()  # type: ignore
 
     def notion_client(self) -> "notion_client.Client":
         return notion_client.Client(auth=self.notion_api_token)

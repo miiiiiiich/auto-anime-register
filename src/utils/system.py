@@ -1,5 +1,4 @@
 import asyncio
-import sys
 from collections.abc import Callable
 from functools import wraps
 from pathlib import Path
@@ -8,11 +7,8 @@ from typing import ParamSpec, TypeVar, cast
 
 from loguru import logger
 
-from utils.env import Env
-
 P = ParamSpec("P")
 R = TypeVar("R")
-
 
 
 def log_fn(fn: Callable[P, R]) -> Callable[P, R]:

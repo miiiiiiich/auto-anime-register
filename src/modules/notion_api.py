@@ -1,24 +1,25 @@
 from typing import Any, cast
 
-from utils.env import Env
 from modules.notion import Page
+from utils.env import Env
 from utils.system import log_fn
 
 
 @log_fn
 def request_notion_db(filter_mal_id=True) -> list[dict[str, Any]]:
     env = Env.get()
-    q = {
-        "database_id": env.notion_db_id,
-    }
     if filter_mal_id:
-        q["filter"] = {
-            "property": "my_anime_list_id",
-            "number": {"is_empty": True},
+        q = {
+            "filter": {
+                "property": "my_anime_list_id",
+                "number": {"is_empty": True},
+            }
         }
+    else:
+        q = {}
     result = []
     while True:
-        res_json = env.notion_client().databases.query(**q)
+        res_json = env.notion_client().databases.query(env.notion_db_id, **q)
         res_json = cast(dict[str, Any], res_json)
         result += res_json["results"]
         next_cursor = res_json.get("next_cursor", "")

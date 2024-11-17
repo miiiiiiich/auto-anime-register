@@ -44,8 +44,3 @@ def give():
         except Exception as e:
             logger.exception(f"Error: {e} at {page.properties.title}")
             continue
-
-
-
-
-

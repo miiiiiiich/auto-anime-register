@@ -28,6 +28,17 @@ pytest = "^8.3.3"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.poe.tasks.give]
+help = "When my anime list is empty, then give anime information"
+shell = "python src/main.py give"
+
+[tool.poe.tasks."lint"]
+help = "Fix all files format in the current directory"
+shell = "ruff format --check . && ruff check --diff . && pyright"
+
+[tool.poe.tasks.fmt]
+help = "Format all files in the current directory"
+shell = "ruff format . && ruff check --fix . "
 
 [tool.ruff]
 line-length = 88
@@ -54,7 +65,7 @@ ignore = ["E501", "N815"]
 exclude = []
 per-file-ignores = { }
 logger-objects = []
-typing-modules = ["typing", "typing_extensions"]
+typing-modules = ["typings", "typing_extensions"]
 
 [tool.pyright]
 pythonVersion = "3.12"
@@ -65,6 +76,8 @@ exclude = [
     "hpe/**",
     ".venv/**",
     "server/**",
+    "typings/**",
+
 ]
 
 stubPath = "src/typings"

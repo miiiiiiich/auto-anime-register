@@ -1,5 +1,4 @@
-import asyncio
-from concurrent.futures import ThreadPoolExecutor, Future
+from concurrent.futures import Future, ThreadPoolExecutor
 
 import mal
 from loguru import logger
@@ -19,9 +18,8 @@ def search_anime(title: str, limit=5) -> list[mal.Anime]:
         limit = len(search)
     search = search[:limit]
     with ThreadPoolExecutor(max_workers=5) as executor:
-        features: list[Future[mal.Anime]] = [
-            executor.submit(req, mal_id=s.mal_id)
-            for s in search
+        features: list[Future[mal.Anime | None]] = [
+            executor.submit(req, mal_id=s.mal_id) for s in search
         ]
 
     anime_list = []
@@ -42,5 +40,5 @@ def main():
     print(res)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
