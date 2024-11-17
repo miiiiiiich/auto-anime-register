@@ -87,7 +87,7 @@ def search_anime_all(titles: list[str]) -> list[list[mal.Anime]]:
 
 
 def select_anime(
-        title: str, anime_list: list[mal.Anime], show_num: int = 3
+    title: str, anime_list: list[mal.Anime], show_num: int = 3
 ) -> mal.Anime:
     """
     Select a match for the searched title
@@ -103,8 +103,8 @@ def select_anime(
     animations: list[mal.Anime] = [anime for anime in anime_list if anime is not None]
     if len(animations) > show_num:
         show_anime_list = [
-                              f"{ma.title_japanese}: {ma.title}" for ma in animations[:show_num]
-                          ] + ["More..."]
+            f"{ma.title_japanese}: {ma.title}" for ma in animations[:show_num]
+        ] + ["More..."]
         more = True
     else:
         show_anime_list = [f"{ma.title_japanese}: {ma.title}" for ma in animations]
@@ -124,7 +124,7 @@ def select_anime(
 
 
 def select_anime_list(
-        titles: list[str], searched_list_anime_list: list[list[mal.Anime]]
+    titles: list[str], searched_list_anime_list: list[list[mal.Anime]]
 ) -> list[mal.Anime]:
     """
     If you send a request after making a selection,
