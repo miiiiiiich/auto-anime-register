@@ -5,29 +5,30 @@ from utils.env import Env
 from utils.system import log_fn
 
 
-@log_fn
-def request_notion_db(filter_mal_id=True) -> list[dict[str, Any]]:
+def request_notion_db(query: dict) -> list[Page]:
     env = Env.get()
-    if filter_mal_id:
-        q = {
-            "filter": {
-                "property": "my_anime_list_id",
-                "number": {"is_empty": True},
-            }
-        }
-    else:
-        q = {}
     result = []
     while True:
-        res_json = env.notion_client().databases.query(env.notion_db_id, **q)
+        res_json = env.notion_client().databases.query(env.notion_db_id, **query)
         res_json = cast(dict[str, Any], res_json)
         result += res_json["results"]
         next_cursor = res_json.get("next_cursor", "")
-        q["start_cursor"] = next_cursor
+        query["start_cursor"] = next_cursor
         if not next_cursor or res_json["has_more"] is False:
             break
 
     return result
+
+
+@log_fn
+def request_none_my_anime_list_id() -> list[Page]:
+    q = {
+        "filter": {
+            "property": "my_anime_list_id",
+            "number": {"is_empty": True},
+        }
+    }
+    return request_notion_db(q)
 
 
 def update_page(page: Page):
@@ -39,10 +40,3 @@ def update_page(page: Page):
         }
     )
     return response
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    res = request_notion_db()
-    pprint(res[1])
