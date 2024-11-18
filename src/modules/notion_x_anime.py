@@ -1,6 +1,7 @@
 from typing import TypedDict
 
 import mal
+from loguru import logger
 
 from modules.anime_api import req, search_anime
 from modules.notion import Page
@@ -25,6 +26,7 @@ def search_anime_by_pages(pages: list[Page]) -> list[SearchResults]:
         search_results = [r for r in search_results if r is not None]
         if not search_results:
             # リクエスト制限が出た場合はNoneになるのでそれ以上リクエストしない
+            logger.warning("Max request limit reached")
             break
         results.append(
             {

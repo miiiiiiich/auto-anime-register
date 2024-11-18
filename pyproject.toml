@@ -30,10 +30,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks.give]
 help = "When my anime list is empty, then give anime information"
-shell = "python src/main.py give"
+cmd = "python src/main.py give"
 [tool.poe.tasks.update]
 help = "Update my anime list information in Notion"
-shell = "python src/main.py update"
+cmd = "python src/main.py update"
 
 [tool.poe.tasks."lint"]
 help = "Fix all files format in the current directory"
