@@ -6,8 +6,10 @@ from tqdm import tqdm
 from modules.cui import select_anime_in_terminal
 from modules.notion_api import request_none_my_anime_list_id, update_page
 from modules.notion_x_anime import search_anime_by_pages
+from utils.system import log_fn
 
 
+@log_fn
 def give():
     tty = sys.stdin.isatty()
     logger.info(f"start give. tty: {tty}")
