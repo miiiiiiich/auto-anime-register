@@ -1,28 +1,90 @@
-[tool.black]
+[tool.poetry]
+name = "auto-anime-register"
+version = "0.1.0"
+description = ""
+authors = ["michisato <Michisato.Hero@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.9.2"
+fire = "^0.7.0"
+tqdm = "^4.67.0"
+requests = "^2.32.3"
+notion-client = "^2.2.1"
+mal-api = "^0.5.3"
+pydantic-settings = "^2.6.1"
+questionary = "^2.0.1"
+loguru = "^0.7.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.7.4"
+pyright = "^1.1.389"
+poethepoet = "^0.30.0"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks.give]
+help = "When my anime list is empty, then give anime information"
+cmd = "python src/main.py give"
+[tool.poe.tasks.update]
+help = "Update my anime list information in Notion"
+cmd = "python src/main.py update"
+
+[tool.poe.tasks."lint"]
+help = "Fix all files format in the current directory"
+shell = "ruff format --check . && ruff check --diff . && pyright"
+
+[tool.poe.tasks.fmt]
+help = "Format all files in the current directory"
+shell = "ruff format . && ruff check --fix . "
+
+[tool.ruff]
 line-length = 88
-extend-exclude = '''
-/(
-  # The following are specific to Black, you probably don't want those.
-  | typings
-)/
-'''
+indent-width = 4
+cache-dir = "./cache/ruff"
+extend-exclude = ["**/typings/**", "wip/**", '.pyenv/**']
+fix = true
+respect-gitignore = true
+show-fixes = true
+target-version = "py312"
+unsafe-fixes = true
 
-[tool.isort]
-profile = "black"
 
-[tool.flake8]
-per-file-ignores = [
-    '__init__.py:F401',
-]
-max-line-length = 88
-count = true
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 60
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = ["E", "F", "N", "W", "I"]
+ignore = ["E501", "N815"]
+exclude = []
+per-file-ignores = { }
+logger-objects = []
+typing-modules = ["typings", "typing_extensions"]
 
 [tool.pyright]
-pythonVersion = "3.10"
+pythonVersion = "3.12"
 exclude = [
     "**/__pycache__",
-    "typings",
+    "src/typings",
+    "**/wip/**",
+    "hpe/**",
+    ".venv/**",
+    "server/**",
+    "typings/**",
+
 ]
-stubPath = [
-    "typings",
-]
+
+stubPath = "src/typings"
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
