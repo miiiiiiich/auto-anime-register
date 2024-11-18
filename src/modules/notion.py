@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Literal
 
 import mal
@@ -21,6 +22,7 @@ class Property(BaseModel):
     source: str | None
     type: str | None
     title_english: str | None
+    edit_at: datetime
 
     @classmethod
     def new(cls, properties: dict) -> "Property":
@@ -39,6 +41,7 @@ class Property(BaseModel):
             source=get_select_item(properties, "source"),
             type=get_select_item(properties, "type"),
             title_english=get_text_item(properties, "title_english"),
+            edit_at=get_default_time_item(properties, "edit_at", "last_edited_time"),
         )
 
     def update(self, anime: mal.Anime):
@@ -117,6 +120,19 @@ def get_title_item(properties: dict[str, dict[str, Any]]) -> str:
 
 def get_url_item(properties: dict[str, dict[str, Any]], key: str) -> str:
     return properties[key]["url"]
+
+
+def get_default_time_item(
+    properties: dict[str, dict[str, Any]],
+    key: str,
+    default_name: Literal["last_edited_time", "created_time"],
+) -> datetime:
+    s = properties[key][default_name]
+    return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+
+
+# edit_at = properties_d["edit_at"]["last_edited_time"]
+# edit_at = datetime.strptime(edit_at, "%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 def title_to_json(title: str):

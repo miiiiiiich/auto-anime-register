@@ -33,12 +33,3 @@ def search_anime(title: str, limit=5) -> list[mal.Anime]:
             logger.exception(e)
             return anime_list
     return anime_list
-
-
-def main():
-    res = search_anime("聖者無双")
-    print(res)
-
-
-if __name__ == "__main__":
-    main()

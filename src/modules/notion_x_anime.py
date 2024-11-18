@@ -2,7 +2,7 @@ from typing import TypedDict
 
 import mal
 
-from modules.anime_api import search_anime
+from modules.anime_api import req, search_anime
 from modules.notion import Page
 from utils.system import log_fn
 
@@ -10,6 +10,11 @@ from utils.system import log_fn
 class SearchResults(TypedDict):
     notion: Page
     anime_list: list[mal.Anime]
+
+
+class RequestResults(TypedDict):
+    notion: Page
+    anime: mal.Anime
 
 
 @log_fn
@@ -25,6 +30,24 @@ def search_anime_by_pages(pages: list[Page]) -> list[SearchResults]:
             {
                 "notion": page,
                 "anime_list": search_results,
+            }
+        )
+    return results
+
+
+@log_fn
+def req_anime_list_by_pages(pages: list[Page]) -> list[RequestResults]:
+    results = []
+    for page in pages:
+        if page.properties.my_anime_list_id is None:
+            continue
+        anime = req(page.properties.my_anime_list_id)
+        if anime is None:
+            break
+        results.append(
+            {
+                "notion": page,
+                "anime": anime,
             }
         )
     return results

@@ -8,9 +8,9 @@ from modules.notion_x_anime import search_anime_by_pages
 
 def give():
     logger.info("start give")
-    items = request_none_my_anime_list_id()
-    logger.info(f"target items: {len(items)}")
-    search_results = search_anime_by_pages(items)
+    pages = request_none_my_anime_list_id()
+    logger.info(f"target pages: {len(pages)}")
+    search_results = search_anime_by_pages(pages)
     updated_pages = []
     for d in search_results:
         page = d["notion"]

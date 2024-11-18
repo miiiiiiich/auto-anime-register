@@ -17,7 +17,7 @@ def request_notion_db(query: dict) -> list[Page]:
         if not next_cursor or res_json["has_more"] is False:
             break
 
-    return result
+    return [Page.new(r) for r in result]
 
 
 @log_fn
@@ -31,6 +31,25 @@ def request_none_my_anime_list_id() -> list[Page]:
     return request_notion_db(q)
 
 
+@log_fn
+def request_pages() -> list[Page]:
+    query = {
+        "filter": {
+            "property": "my_anime_list_id",
+            "number": {"is_not_empty": True},
+        },
+        # "sorts": [
+        #     {
+        #         "property": "edit_at",
+        #         "direction": "ascending",
+        #     }
+        # ]
+    }
+    results = request_notion_db(query)
+    sort_results = sorted(results, key=lambda x: x.properties.edit_at)
+    return sort_results
+
+
 def update_page(page: Page):
     env = Env.get()
     response = env.notion_client().pages.update(
@@ -40,3 +59,8 @@ def update_page(page: Page):
         }
     )
     return response
+
+
+if __name__ == "__main__":
+    res = request_pages()
+    print(res)
