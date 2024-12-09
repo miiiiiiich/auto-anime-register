@@ -5,6 +5,7 @@
 ![github_action](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 ![notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
 ![intellij](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+
 ## auto-anime-register
 
 notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でアニメの詳細情報およびレビューを追加する。
@@ -57,6 +58,7 @@ https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-
 ```shell
 poetry run poe update
 ```
+
 my anime list のapi制限によりすべてできるとは限らない。
 api 制限になった場合はしばらくの間実行できなくなるので注意が必要
 
@@ -70,6 +72,7 @@ api 制限になった場合はしばらくの間実行できなくなるので�
 ## development
 
 ### stub
+
 ```shell
 pyright --createstub <library-name>
 ```
