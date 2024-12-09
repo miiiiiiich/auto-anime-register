@@ -2,8 +2,8 @@
 name = "auto-anime-register"
 version = "0.1.0"
 description = ""
-authors = ["michisato <Michisato.Hero@gmail.com>"]
 readme = "README.md"
+authors = []
 
 [tool.poetry.dependencies]
 python = "^3.12"

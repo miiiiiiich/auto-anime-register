@@ -1,10 +1,11 @@
 ![](https://github.com/miiiiiiich/auto-anime-register/actions/workflows/python-lint.yml/badge.svg)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Code style: ruff](https://camo.githubusercontent.com/051a04ae958f4a1a5d6444df4cdc520305eef93d5028e6d4c7cd16efa3136cd4/68747470733a2f2f696d672e736869656c64732e696f2f656e64706f696e743f75726c3d68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f61737472616c2d73682f727566662f6d61696e2f6173736574732f62616467652f76322e6a736f6e)](https://github.com/psf/black)
 
 ![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![github_action](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 ![notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
 ![intellij](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+
 ## auto-anime-register
 
 notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でアニメの詳細情報およびレビューを追加する。
@@ -23,13 +24,13 @@ notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でア�
 
 ## env
 
-- python 3.10^
-- pipenv
+- python 3.12^
+- poetry
 
 ### install
 
 ```shell
-pipenv install 
+poetry install 
 ```
 
 ### env file
@@ -38,7 +39,6 @@ pipenv install
 # .env file
 NOTION_API_TOKEN = "xxx"
 NOTION_DATABASE_ID = "xxx"
-MAL_CLIENT_ID = "xxx"
 ```
 
 ### run
@@ -46,8 +46,7 @@ MAL_CLIENT_ID = "xxx"
 #### 1. my-anime-listのデータがないアイテムについての付与
 
 ```shell
-pipenv run give
-# pipenv run update-notion in_progress todo
+poetry run poe give
 ```
 
 引数にstatusを指定することで、指定したstatusのアニメのみ更新する。
@@ -57,9 +56,9 @@ https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-
 #### 2. my-anime-listのデータがあるアイテムについての更新
 
 ```shell
-pipenv run update
-# pipenv run update-notion in_progress todo
+poetry run poe update
 ```
+
 my anime list のapi制限によりすべてできるとは限らない。
 api 制限になった場合はしばらくの間実行できなくなるので注意が必要
 
@@ -69,11 +68,11 @@ api 制限になった場合はしばらくの間実行できなくなるので�
 - [notion_client](https://blog.rmc-8.com/2021/06/using-notion-api-with-python.html)
 - [how to use my anime list API](https://myanimelist.net/forum/?topicid=1973141)
 - [Awesome Badges](https://dev.to/envoy_/150-badges-for-github-pnk)
-- [black](https://github.com/psf/black)
 
 ## development
 
 ### stub
+
 ```shell
 pyright --createstub <library-name>
 ```
