@@ -2,9 +2,16 @@
 .env
 wip/
 
-# AI tools
+# AI tools (public repo なので個人の設定・指示ファイルは入れない)
 .antigravitycli/
 .claude/
+.codex/
+.gemini/
+.cursor/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
 
 # Python
 __pycache__/
