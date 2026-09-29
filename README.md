@@ -25,12 +25,12 @@ notionAPIとmy-anime-listAPIを使ってnotionデータベースに自動でア�
 ## env
 
 - python 3.12^
-- poetry
+- uv
 
 ### install
 
 ```shell
-poetry install 
+uv sync
 ```
 
 ### env file
@@ -38,7 +38,8 @@ poetry install
 ```shell
 # .env file
 NOTION_API_TOKEN = "xxx"
-NOTION_DATABASE_ID = "xxx"
+NOTION_DB_ID = "xxx"
+MAL_CLIENT_ID = "xxx"
 ```
 
 ### run
@@ -46,7 +47,7 @@ NOTION_DATABASE_ID = "xxx"
 #### 1. my-anime-listのデータがないアイテムについての付与
 
 ```shell
-poetry run poe give
+uv run poe give
 ```
 
 引数にstatusを指定することで、指定したstatusのアニメのみ更新する。
@@ -56,7 +57,7 @@ https://user-images.githubusercontent.com/51878466/215313869-ee96e9cb-e104-4e68-
 #### 2. my-anime-listのデータがあるアイテムについての更新
 
 ```shell
-poetry run poe update
+uv run poe update
 ```
 
 my anime list のapi制限によりすべてできるとは限らない。

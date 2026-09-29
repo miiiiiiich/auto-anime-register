@@ -24,10 +24,6 @@ def give():
     updated_pages = []
     for d in search_results:
         page = d["notion"]
-        anime_list = d["anime_list"]
-        if not anime_list:
-            logger.warning(f"No anime found for {page.properties.title}")
-            continue
         anime = select_anime_in_terminal(page.properties.title, d["anime_list"])
         page.properties.update(anime)
         updated_pages.append(page)

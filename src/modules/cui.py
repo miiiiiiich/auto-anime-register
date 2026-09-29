@@ -1,12 +1,11 @@
-import mal
 import questionary
 
+from modules.anime_api import Anime
 
-def select_anime_in_terminal(
-    search_words: str, anime_list: list[mal.Anime]
-) -> mal.Anime:
+
+def select_anime_in_terminal(search_words: str, anime_list: list[Anime]) -> Anime:
     choices = [
-        f"{i + 1}. {anime.title_japanese}: {anime.title}"
+        f"{i + 1}. {anime.title_japanese or '-'}: {anime.title}"
         for i, anime in enumerate(anime_list)
     ]
     choice = questionary.select(f"search words: {search_words}", choices=choices).ask()

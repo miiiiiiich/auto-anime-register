@@ -13,6 +13,7 @@ class Env(BaseSettings):
     model_config = SettingsConfigDict(env_file=root_path() / ".env")
     notion_api_token: str
     notion_db_id: str
+    mal_client_id: str
 
     @classmethod
     @lru_cache

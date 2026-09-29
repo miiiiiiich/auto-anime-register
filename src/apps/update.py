@@ -1,6 +1,6 @@
 import sys
 
-from prompt_toolkit.contrib.telnet.log import logger
+from loguru import logger
 from tqdm import tqdm
 
 from modules.notion_api import request_pages, update_page
