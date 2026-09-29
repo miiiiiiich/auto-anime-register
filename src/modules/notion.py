@@ -1,8 +1,9 @@
 from datetime import datetime
 from typing import Any, Literal
 
-import mal
 from pydantic import BaseModel
+
+from modules.anime_api import Anime
 
 Status = Literal["done", "back_log", "todo", "in_progress", "cancel", "paid"]
 
@@ -44,7 +45,7 @@ class Property(BaseModel):
             edit_at=get_default_time_item(properties, "edit_at", "last_edited_time"),
         )
 
-    def update(self, anime: mal.Anime):
+    def update(self, anime: Anime):
         self.title = anime.title
         self.title_japanese = anime.title_japanese
         self.genres = anime.genres

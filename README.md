@@ -38,7 +38,8 @@ poetry install
 ```shell
 # .env file
 NOTION_API_TOKEN = "xxx"
-NOTION_DATABASE_ID = "xxx"
+NOTION_DB_ID = "xxx"
+MAL_CLIENT_ID = "xxx"
 ```
 
 ### run
